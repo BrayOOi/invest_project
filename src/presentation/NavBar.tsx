@@ -29,7 +29,7 @@ const NavBar: React.FC<{}> = () => {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" className={classes.title}>
-          News
+          Rogue One
         </Typography>
         <Button color="inherit">Login</Button>
       </Toolbar>
