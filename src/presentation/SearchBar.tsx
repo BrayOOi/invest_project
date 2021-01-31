@@ -4,10 +4,22 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-const SearchBar = ({options, label, getOptionLabel = option => option, ...props}) => (
+type SearchBarProps = {
+  options: Array<any>;
+  label: string;
+  getOptionLabel: (arg0: any) => string;
+  setQuery: any;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({
+  options,
+  label,
+  getOptionLabel = option => option,
+  setQuery
+}) => (
   <Autocomplete
-    {...props}
     // freeSolo
+    onChange={(event, value) => setQuery(value)}
     options={options}
     getOptionLabel={getOptionLabel}
     renderInput={(params) => (

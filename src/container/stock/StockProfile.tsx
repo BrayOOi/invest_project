@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import OHLChart from '../../presentation/OHLC';
 import MAIN_MARKET_STOCK_INFO from '../../utils/Main_Market.json';
 
 
@@ -15,6 +16,7 @@ const StockProfile: React.FC<{ code: string }> = ({ code }) => {
         <p>Stock Name: {selectedStock.long_name}</p>
         <p>Category: {selectedStock.category} {selectedStock.shariah ? 'V' : 'X'}</p>
         <p>Visit <a href={selectedStock.href}>here</a> for more info</p>
+        <OHLChart />
       </>
     )
   } else {
