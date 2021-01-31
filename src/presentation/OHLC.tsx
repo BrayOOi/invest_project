@@ -1,8 +1,7 @@
 import React from 'react';
 import HighChartStock from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-
-import stock_sample from '../utils/3A_0012.json';
+import { StockInfoResT } from '../constants/types';
 
 const groupingUnits = [[
   'week',                         // unit name
@@ -12,69 +11,71 @@ const groupingUnits = [[
   [1, 2, 3, 4, 6]
 ]];
 
-const stockOptions = {
-  title: {
-    text: '3A stockchart'
-  },
-  rangeSelector: {
-    selected: 1,
-  },
-  yAxis: [{
-    labels: {
-        align: 'right',
-        x: -3
-    },
+const OHLChart: React.FC<{ stockData: StockInfoResT }> = ({ stockData = [] }) => {
+  const stockOptions = {
     title: {
-        text: 'OHLC'
+      text: '3A stockchart'
     },
-    height: '60%',
-    lineWidth: 2,
-    resize: {
-        enabled: true
-    }
-  }, {
-    labels: {
-        align: 'right',
-        x: -3
+    rangeSelector: {
+      selected: 1,
     },
-    title: {
-        text: 'Volume'
-    },
-    top: '65%',
-    height: '35%',
-    offset: 0,
-    lineWidth: 2
-  }],
-  series: [{
-    type: 'candlestick',
-    name: '3A',
-    data: stock_sample.map(data => [
-      +new Date(data["Date"]),
-      data["Open"],
-      data["High"],
-      data["Low"],
-      data["Close"]
-    ]),
-    dataGrouping: {
-        units: groupingUnits
-    }
-  }, {
-      type: 'column',
-      name: 'Volume',
-      data: stock_sample.map(data => [+new Date(data["Date"]), data.Volume]),
-      yAxis: 1,
+    yAxis: [{
+      labels: {
+          align: 'right',
+          x: -3
+      },
+      title: {
+          text: 'OHLC'
+      },
+      height: '60%',
+      lineWidth: 2,
+      resize: {
+          enabled: true
+      }
+    }, {
+      labels: {
+          align: 'right',
+          x: -3
+      },
+      title: {
+          text: 'Volume'
+      },
+      top: '65%',
+      height: '35%',
+      offset: 0,
+      lineWidth: 2
+    }],
+    series: [{
+      type: 'candlestick',
+      name: '3A',
+      data: stockData.map(data => [
+        +new Date(data.date),
+        data.open,
+        data.high,
+        data.low,
+        data.close
+      ]),
       dataGrouping: {
           units: groupingUnits
       }
-  }],
-  tooltip: {
-    split: true,
-    valueDecimals: 3
-  }
+    }, {
+        type: 'column',
+        name: 'Volume',
+        data: stockData.map(data => [+new Date(data.date), data.volume]),
+        yAxis: 1,
+        dataGrouping: {
+            units: groupingUnits
+        }
+    }],
+    tooltip: {
+      split: true,
+      valueDecimals: 3
+    }
+  };
+  
+  return (
+    <HighchartsReact highcharts={HighChartStock} constructorType={'stockChart'} options={stockOptions} />
+  );
 };
-
-const OHLChart: React.FC<{}> = () => (
-  <HighchartsReact highcharts={HighChartStock} constructorType={'stockChart'} options={stockOptions} />
-);
 
 export default OHLChart;

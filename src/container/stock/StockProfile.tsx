@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { StockInfoResT } from '../../constants/types';
 import OHLChart from '../../presentation/OHLC';
+import { fetchStockData } from '../../store/stock/actions';
 import MAIN_MARKET_STOCK_INFO from '../../utils/Main_Market.json';
 
 
 const StockProfile: React.FC<{ code: string }> = ({ code }) => {
   const selectedStock = MAIN_MARKET_STOCK_INFO.find(stock => stock.code == code);
+  const [stockData, setStockData] = useState([] as StockInfoResT);
+
+  useEffect(() => {
+    async function getStockData() {
+      const stockData = await fetchStockData(code);
+      setStockData(stockData);
+    }
+
+    getStockData();
+  }, []);
 
   if (selectedStock) {
     return (
@@ -16,7 +28,7 @@ const StockProfile: React.FC<{ code: string }> = ({ code }) => {
         <p>Stock Name: {selectedStock.long_name}</p>
         <p>Category: {selectedStock.category} {selectedStock.shariah ? 'V' : 'X'}</p>
         <p>Visit <a href={selectedStock.href}>here</a> for more info</p>
-        <OHLChart />
+        <OHLChart stockData={stockData} />
       </>
     )
   } else {
