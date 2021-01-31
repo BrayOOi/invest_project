@@ -4,8 +4,9 @@ import SearchBar from '../../presentation/SearchBar';
 
 import { Typography } from '@material-ui/core';
 import MAIN_MARKET_STOCK_INFO from '../../utils/Main_Market.json';
+import { StockT } from '../../constants/types';
 
-const INITIAL_STOCK_STATE = {
+const INITIAL_STOCK_STATE: StockT = {
   category: '',
   code: 0,
   href: '',

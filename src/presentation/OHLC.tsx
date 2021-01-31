@@ -1,7 +1,7 @@
 import React from 'react';
 import HighChartStock from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { StockInfoResT } from '../constants/types';
+import { StockInfoResT, StockT } from '../constants/types';
 
 const groupingUnits = [[
   'week',                         // unit name
@@ -11,13 +11,21 @@ const groupingUnits = [[
   [1, 2, 3, 4, 6]
 ]];
 
-const OHLChart: React.FC<{ stockData: StockInfoResT }> = ({ stockData = [] }) => {
+type OHLChartProps = { 
+  stock: StockT,
+  stockData: StockInfoResT
+};
+
+const OHLChart: React.FC<OHLChartProps> = ({ stockData, stock }) => {
   const stockOptions = {
+    chart: {
+      height: '50%',
+    },
     title: {
-      text: '3A stockchart'
+      text: stock.long_name
     },
     rangeSelector: {
-      selected: 1,
+      selected: 6,
     },
     yAxis: [{
       labels: {
@@ -27,7 +35,7 @@ const OHLChart: React.FC<{ stockData: StockInfoResT }> = ({ stockData = [] }) =>
       title: {
           text: 'OHLC'
       },
-      height: '60%',
+      height: '80%',
       lineWidth: 2,
       resize: {
           enabled: true
@@ -40,14 +48,14 @@ const OHLChart: React.FC<{ stockData: StockInfoResT }> = ({ stockData = [] }) =>
       title: {
           text: 'Volume'
       },
-      top: '65%',
-      height: '35%',
+      top: '80%',
+      height: '20%',
       offset: 0,
       lineWidth: 2
     }],
     series: [{
       type: 'candlestick',
-      name: '3A',
+      name: stock.name,
       data: stockData.map(data => [
         +new Date(data.date),
         data.open,
@@ -69,12 +77,16 @@ const OHLChart: React.FC<{ stockData: StockInfoResT }> = ({ stockData = [] }) =>
     }],
     tooltip: {
       split: true,
-      valueDecimals: 3
+      // valueDecimals: 3
     }
   };
   
   return (
-    <HighchartsReact highcharts={HighChartStock} constructorType={'stockChart'} options={stockOptions} />
+    <HighchartsReact 
+      highcharts={HighChartStock}
+      constructorType={'stockChart'}
+      options={stockOptions}
+    />
   );
 };
 
