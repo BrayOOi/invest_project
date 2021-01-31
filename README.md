@@ -29,6 +29,11 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `npm run api`
+
+Runs the back end for development purposes.\
+The default port number has been changed to 3001 to prevent clashing with the React front end.\
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
